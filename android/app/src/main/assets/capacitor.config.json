@@ -1,6 +1,6 @@
 {
   "appId": "uk.pgmckillop.bmi",
-  "appName": "BMI Calculator",
+  "appName": "BMI",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "build",
