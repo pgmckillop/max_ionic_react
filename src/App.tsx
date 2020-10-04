@@ -1,12 +1,10 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   IonApp,
-  IonButton,
   IonCol,
   IonContent,
   IonGrid,
   IonHeader,
-  IonIcon,
   IonInput,
   IonItem,
   IonLabel,
@@ -17,7 +15,9 @@ import {
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
-import { calculatorOutline, refreshOutline } from 'ionicons/icons';
+
+import BmiControls from './components/BmiControls';
+import BmiResult from './components/BmiResult';
 
 /* Basic CSS for apps built with Ionic */
 import '@ionic/react/css/normalize.css';
@@ -37,6 +37,8 @@ import './theme/variables.css';
 import { register } from './serviceWorker';
 
 const App: React.FC = () => {
+  const [calculatedBmi, setCalculatedBmi] = useState<number>();
+
   const weightInputRef = useRef<HTMLIonInputElement>(null);
   const heightInputRef = useRef<HTMLIonInputElement>(null);
 
@@ -50,7 +52,7 @@ const App: React.FC = () => {
 
     const bmi = +enteredWeight / (+enteredHeight * +enteredHeight);
 
-    console.log(bmi);
+    setCalculatedBmi(bmi);
   };
 
   const resetInputs = () => {
@@ -83,23 +85,8 @@ const App: React.FC = () => {
               </IonItem>
             </IonCol>
           </IonRow>
-          <IonRow>
-            <IonCol className="ion-text-left">
-              <IonButton onClick={calculateBMI}>
-                <IonIcon slot="start" icon={calculatorOutline} />
-                Calculate
-              </IonButton>
-            </IonCol>
-            <IonCol className="ion-text-right">
-              <IonButton onClick={resetInputs}>
-                <IonIcon slot="start" icon={refreshOutline} />
-                Reset
-              </IonButton>
-            </IonCol>
-          </IonRow>
-          <IonRow>
-            <IonCol></IonCol>
-          </IonRow>
+          <BmiControls onCalculate={calculateBMI} onReset={resetInputs} />
+          {calculatedBmi && <BmiResult result={calculatedBmi} />}
         </IonGrid>
       </IonContent>
     </IonApp>
